@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -12,7 +13,7 @@ namespace TechJobsConsole
 
         public static List<Dictionary<string, string>> FindAll()
         {
-            LoadData();
+            LoadData(); ///// What is the difference if AllJobs is returned in LoadData function itself?
             return AllJobs;
         }
 
@@ -54,7 +55,7 @@ namespace TechJobsConsole
                     jobs.Add(row);
                 }
             }
-
+            
             return jobs;
         }
 
@@ -138,5 +139,27 @@ namespace TechJobsConsole
 
             return rowValues.ToArray();
         }
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> pair in row)
+                {
+                    if (pair.Value.ToLower().Contains(value.ToLower()))
+                    {
+                        jobs.Add(row);
+                        continue;
+                    }
+                }
+            }
+            return jobs;
+        }
+
     }
 }
